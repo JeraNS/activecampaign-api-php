@@ -308,6 +308,15 @@ class AC_Connector {
 
 		$object = json_decode($response);
 
+        // Hack to overcome certain api endpoint failure.....
+        if (is_array($object)) {
+            $object = (object) array(
+                'data' => $object,
+                'result_code' => 200,
+                'succeeded' => true
+            );
+        }
+
 		if ($this->debug) {
 			$this->dbg($object, 1, "pre", "Description: Response object (json_decode)");
 		}
